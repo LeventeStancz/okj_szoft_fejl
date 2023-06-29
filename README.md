@@ -1,4 +1,4 @@
-# Szoftverfejlesztő OKJ vizsga program.
+# Szoftverfejlesztő OKJ vizsga program. (2021.09 - 2022.05)
 A program dokumentációja megtalálható a fájlok között.
 
 Rövid leírás:
