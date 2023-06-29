@@ -1,6 +1,6 @@
 # Szoftverfejlesztő OKJ vizsga program.
 A program dokumentációja megtalálható a fájlok között.
-Rövid leírás:
+ Rövid leírás:
   * A MyDrivers segít a programot használó cégnek, cégeknek nyomon követni,
     rendszerezni, szerkeszteni, illetve bizonyos esetekben törölni a cég alkalmazottjaival és
     eszközeivel kapcsolatos adatokat. A program kifejezetten Magyarország, azon belül pedig
