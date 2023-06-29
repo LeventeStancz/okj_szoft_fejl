@@ -1,0 +1,1063 @@
+﻿<Window x:Class="MyDrivers.Fooldal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyDrivers"
+        mc:Ignorable="d"
+        Title="Főoldal" Height="720" Width="1280" Background="#FF005F68" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Foreground="#FFE6E6E6" FontSize="14" MinWidth="800" MinHeight="500" AllowsTransparency="True">
+    <Window.Resources>
+        <ControlTemplate x:Key="SajatProfil_ScrollViewer" TargetType="{x:Type ScrollViewer}">
+            <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Rectangle x:Name="Corner" Grid.Column="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>
+                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Grid.Column="0" Margin="{TemplateBinding Padding}" Grid.Row="0"/>
+                <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" Background="#FF343434" BorderBrush="#FF818181" Foreground="#FF131313"/>
+                <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>
+            </Grid>
+        </ControlTemplate>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="OptionMark.Static.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="OptionMark.Static.Border" Color="#FF707070"/>
+        <Style x:Key="OptionMarkFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="14,0,0,0" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="OptionMark.MouseOver.Background" Color="#FFF3F9FF"/>
+        <SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="#FF5593FF"/>
+        <SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="#FF212121"/>
+        <SolidColorBrush x:Key="OptionMark.Disabled.Background" Color="#FFE6E6E6"/>
+        <SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="#FFBCBCBC"/>
+        <SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="#FF707070"/>
+        <SolidColorBrush x:Key="OptionMark.Pressed.Background" Color="#FFD9ECFF"/>
+        <SolidColorBrush x:Key="OptionMark.Pressed.Border" Color="#FF3C77DD"/>
+        <SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="#FF212121"/>
+        <SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="#FF212121"/>
+
+        <Style x:Key="CheckBoxStyle1" TargetType="{x:Type CheckBox}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="checkBoxBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="Stretch" Margin="1" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Height="Auto" Width="Auto">
+                                <Grid x:Name="markGrid">
+                                    <Path x:Name="optionMark" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Fill="{StaticResource OptionMark.Static.Glyph}" Margin="1" Opacity="0" Stretch="Uniform"/>
+                                    <Rectangle x:Name="indeterminateMark" Fill="{StaticResource OptionMark.Static.Glyph}" Margin="2" Opacity="0"/>
+                                </Grid>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasContent" Value="true">
+                                <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
+                                <Setter Property="Padding" Value="4,-1,0,0"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Border}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Border}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Border}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Opacity" TargetName="optionMark" Value="1"/>
+                                <Setter Property="Opacity" TargetName="indeterminateMark" Value="0"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="{x:Null}">
+                                <Setter Property="Opacity" TargetName="optionMark" Value="0"/>
+                                <Setter Property="Opacity" TargetName="indeterminateMark" Value="1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="KeresoBtn" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" CornerRadius="10">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#8f8f8f"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="Transparent"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#d9d9d9"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="Transparent"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid x:Name="Menu_Grid" HorizontalAlignment="Left" Width="300">
+            <Rectangle x:Name="MenuHatter_Rectangle" Fill="#FF3C7AAE" Width="300" HorizontalAlignment="Left"/>
+            <Label x:Name="udv_label" Content="Üdv újra!" Height="45" Margin="10,35,10,0" VerticalAlignment="Top" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="26" RenderTransformOrigin="0.5,0.5" Foreground="#FF0C0C0C">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Label x:Name="FHnev_Label" Content="Felhasznalonev" Height="50" Margin="10,80,10,0" VerticalAlignment="Top" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" Foreground="#FFFFAE00"/>
+            <ScrollViewer x:Name="menu_ScrollViewer" Margin="0,135,0,0" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel x:Name="menu__StackPanel">
+                    <Button x:Name="Fooldal_btn" Content="Fő oldal" Height="60" VerticalAlignment="Top" BorderBrush="{x:Null}" Foreground="#FF0A0A0A" FontSize="24" FontWeight="Bold" Background="#00000000" HorizontalContentAlignment="Left" Padding="4,0,0,0" Width="300" Click="Fooldal_btn_Click"/>
+                    <Button x:Name="BeosztasTervezes_btn" Content="Beosztás tervezés" Height="60" VerticalAlignment="Top" BorderBrush="{x:Null}" Foreground="#FF0A0A0A" FontSize="24" FontWeight="Bold" Background="#00000000" HorizontalContentAlignment="Left" Padding="4,0,0,0" Width="300" Click="BeosztasTervezes_btn_Click"/>
+                    <Button x:Name="Fuvarok_btn" Content="Fuvarok" Height="60" VerticalAlignment="Top" BorderBrush="{x:Null}" Foreground="#FF0A0A0A" FontSize="24" FontWeight="Bold" Background="#00000000" HorizontalContentAlignment="Left" Padding="4,0,0,0" Width="300" Click="Fuvarok_btn_Click"/>
+                    <Button x:Name="Felhasznalok_btn" Content="Felhasználók kezelése" Height="60" VerticalAlignment="Top" BorderBrush="{x:Null}" Foreground="#FF0A0A0A" FontSize="24" FontWeight="Bold" Background="#00000000" HorizontalContentAlignment="Left" Padding="4,0,0,0" Width="300" Click="Felhasznalok_btn_Click"/>
+                    <Button x:Name="Jarmuvek_btn" Content="Járművek kezelése" Height="60" VerticalAlignment="Top" BorderBrush="{x:Null}" Foreground="#FF0A0A0A" FontSize="24" FontWeight="Bold" Background="#00000000" HorizontalContentAlignment="Left" Padding="4,0,0,0" Width="300" Click="Jarmuvek_btn_Click"/>
+                    <Button x:Name="Szervizek_btn" Content="Szervízek kezelése" Height="60" VerticalAlignment="Top" BorderBrush="{x:Null}" Foreground="#FF0A0A0A" FontSize="24" FontWeight="Bold" Background="#00000000" HorizontalContentAlignment="Left" Padding="4,0,0,0" Width="300" Click="Szervizek_btn_Click"/>
+                    <Button x:Name="Szervizeles_btn" Content="Szervizelés alatt" Height="60" VerticalAlignment="Top" BorderBrush="{x:Null}" Foreground="#FF0A0A0A" FontSize="24" FontWeight="Bold" Background="#00000000" HorizontalContentAlignment="Left" Padding="4,0,0,0" Click="Szervizeles_btn_Click" Width="300"/>
+                    <Button x:Name="SajatProfil_btn" Content="Saját profil" Height="60" VerticalAlignment="Top" BorderBrush="{x:Null}" Foreground="#FF0A0A0A" FontSize="24" FontWeight="Bold" Background="#00000000" HorizontalContentAlignment="Left" Padding="4,0,0,0" Width="300" Click="SajatProfil_btn_Click"/>
+                    <Button x:Name="Kijelentkezes_btn" Content="Kijelentkezés" Height="60" VerticalAlignment="Top" BorderBrush="{x:Null}" Foreground="#FF0A0A0A" FontSize="24" FontWeight="Bold" Background="#00000000" HorizontalContentAlignment="Left" Padding="4,0,0,0" Click="Kijelentkezes_btn_Click" Width="300"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        <Grid x:Name="Main_Grid" Margin="300,30,0,0">
+            <Grid x:Name="Fooldal_Grid" Margin="10,0,10,10">
+                <Label x:Name="kereses_label" Content="Keresés:" FontSize="32" VerticalContentAlignment="Center" Padding="0" Height="60" VerticalAlignment="Top" Background="#00000000" Foreground="#FFEEEEEE" HorizontalAlignment="Left" Width="600" Margin="10,0,0,0"/>
+                <TextBox x:Name="Kereses_tb" Margin="10,65,615,0" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="24" BorderBrush="{x:Null}" Background="#FFB9B9B9" SelectionBrush="#FFCDCDCD" Foreground="#FF023CFF" BorderThickness="2" Height="55" VerticalAlignment="Top" MaxLength="38"/>
+                <Button x:Name="Kereses_btn" Content="Keresés" Height="55" Margin="0,65,10,0" VerticalAlignment="Top" BorderBrush="{x:Null}" Foreground="#FF151515" Background="#FFB9B9B9" FontSize="26" HorizontalAlignment="Right" Width="180" BorderThickness="2" Click="Kereses_btn_Click" Style="{DynamicResource KeresoBtn}"/>
+                <Label x:Name="talalatok_label" Content="Találatok:" Margin="10,125,0,0" FontSize="28" VerticalContentAlignment="Center" Padding="2,0,0,0" Height="60" VerticalAlignment="Top" Background="#00000000" Foreground="#FFEEEEEE" HorizontalAlignment="Left" Width="600"/>
+                <ComboBox x:Name="KeresoTabla_cb" SelectionChanged="KeresoTabla_cb_SelectionChanged" Height="55" Margin="0,65,410,0" VerticalAlignment="Top" FontSize="22" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="200"/>
+                <ComboBox x:Name="KeresoMezo_cb" Height="55" Margin="0,65,195,0" VerticalAlignment="Top" FontSize="20" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="210"/>
+                <DataGrid x:Name="dg" IsReadOnly="True" RowHeaderWidth="0" Background="#FF004B53" FontSize="24" BorderBrush="{x:Null}" SelectionUnit="Cell" Margin="10,190,10,10"/>
+            </Grid>
+            <Grid x:Name="SajatProfil_Grid" Visibility="Collapsed">
+                <ScrollViewer x:Name="sajatprof__ScrollViewer" Margin="340,20,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <WrapPanel x:Name="sajatprof__WrapPanel">
+                        <StackPanel x:Name="fnev_StackPanel" Height="120" Width="300" Margin="1" Background="#FF007F8B">
+                            <Label x:Name="label1" Content="Felhasználónév:" Height="60" FontSize="32" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <Label x:Name="sajatprof_fnev" Content="fnev" Height="60" FontSize="28" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <TextBox x:Name="sajatprof_fnev_tb" MaxLength="32" Height="60" FontSize="30" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="2,0" SelectionBrush="#FFF9994F" Foreground="#FFFF7E7E" BorderBrush="{x:Null}" Background="#FF0044A6" Visibility="Collapsed" ToolTip="Pl.: NagyPista"/>
+                        </StackPanel>
+                        <StackPanel x:Name="email_StackPanel" Height="120" Width="410" Margin="1" Background="#FF007F8B">
+                            <Label x:Name="label2" Content="Email cím:" Height="60" FontSize="32" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <Label x:Name="sajatprof_email" Content="email" Height="60" FontSize="28" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <TextBox x:Name="sajatprof_email_tb" MaxLength="256" Height="60" FontSize="30" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="2,0" SelectionBrush="#FFF9994F" Foreground="#FFFF7E7E" BorderBrush="{x:Null}" Background="#FF0044A6" Visibility="Collapsed" ToolTip="Pl.: mydrivers@gmail.com"/>
+                        </StackPanel>
+                        <StackPanel x:Name="szulnap_StackPanel" Height="120" Width="300" Margin="1" Background="#FF007F8B">
+                            <Label x:Name="label3" Content="Születési dátum:" Height="60" FontSize="32" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <Label x:Name="sajatprof_szulnap" Content="szulnap" Height="60" FontSize="28" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <TextBox x:Name="sajatprof_szulnap_tb" MaxLength="10" Height="60" FontSize="30" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="2,0" SelectionBrush="#FFF9994F" Foreground="#FFFF7E7E" BorderBrush="{x:Null}" Background="#FF0044A6" Visibility="Collapsed" ToolTip="Pl.: 1999-01-01"/>
+
+                        </StackPanel>
+                        <StackPanel x:Name="nem_StackPanel" Height="120" Width="300" Margin="1" Background="#FF007F8B">
+                            <Label x:Name="label4" Content="Nemi identitás:" Height="60" FontSize="32" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <Label x:Name="sajatprof_nem" Content="nem" Height="60" FontSize="28" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <TextBox x:Name="sajatprof_nem_tb" MaxLength="16" Height="60" FontSize="30" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="2,0" SelectionBrush="#FFF9994F" Foreground="#FFFF7E7E" BorderBrush="{x:Null}" Background="#FF0044A6" Visibility="Collapsed"/>
+
+                        </StackPanel>
+                        <StackPanel x:Name="telszam_StackPanel" Height="120" Width="300" Margin="1" Background="#FF007F8B">
+                            <Label x:Name="label5" Content="Telefonszám:" Height="60" FontSize="32" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <Label x:Name="sajatprof_telszam" Content="telszam" Height="60" FontSize="28" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <TextBox x:Name="sajatprof_telszam_tb" MaxLength="11" Height="60" FontSize="30" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="2,0" SelectionBrush="#FFF9994F" Foreground="#FFFF7E7E" BorderBrush="{x:Null}" Background="#FF0044A6" Visibility="Collapsed" ToolTip="Pl.: 06XX1234567"/>
+
+                        </StackPanel>
+                        <StackPanel x:Name="lakcim_StackPanel" Height="120" Width="602" Margin="1" Background="#FF007F8B">
+                            <Label x:Name="label6" Content="Lakcím:" Height="60" FontSize="32" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <Label x:Name="sajatprof_lakcim" Content="lakcim; lakcim; lakcim lakcim lakcim; lakcim" Height="60" FontSize="28" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <TextBox x:Name="sajatprof_lakcim_tb" MaxLength="128" Height="60" FontSize="30" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="2,0" SelectionBrush="#FFF9994F" Foreground="#FFFF7E7E" BorderBrush="{x:Null}" Background="#FF0044A6" Visibility="Collapsed" ToolTip="Pl.: 1136, Budapest, Visegrádi utca 5"/>
+
+                        </StackPanel>
+                        <StackPanel x:Name="adoszam_StackPanel" Height="120" Width="300" Margin="1" Background="#FF007F8B">
+                            <Label x:Name="label7" Content="Adóazonosító jel:" Height="60" FontSize="32" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <Label x:Name="sajatprof_adoszam" Content="adoszam" Height="60" FontSize="28" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <TextBox x:Name="sajatprof_adoszam_tb" MaxLength="10" Height="60" FontSize="30" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="2,0" SelectionBrush="#FFF9994F" Foreground="#FFFF7E7E" BorderBrush="{x:Null}" Background="#FF0044A6" Visibility="Collapsed" ToolTip="Pl.: 0123456789"/>
+
+                        </StackPanel>
+                        <StackPanel x:Name="bankszam_StackPanel" Height="120" Width="460" Margin="1" Background="#FF007F8B">
+                            <Label x:Name="label8" Content="Bankszámla szám:" Height="60" FontSize="32" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <Label x:Name="sajatprof_bankszam" Content="bankszamlaszam" Height="60" FontSize="28" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <TextBox x:Name="sajatprof_bankszam_tb" MaxLength="26" Height="60" FontSize="30" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="2,0" SelectionBrush="#FFF9994F" Foreground="#FFFF7E7E" BorderBrush="{x:Null}" Background="#FF0044A6" Visibility="Collapsed" ToolTip="Pl.: 12345678-12345678-12345678"/>
+
+                        </StackPanel>
+                        <StackPanel x:Name="szemelyi_StackPanel" Height="120" Width="300" Margin="1" Background="#FF007F8B">
+                            <Label x:Name="label9" Content="Szemelyi szám:" Height="60" FontSize="32" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <Label x:Name="sajatprof_szemelyi" Content="szemelyi" Height="60" FontSize="28" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <TextBox x:Name="sajatprof_szemelyi_tb" MaxLength="8" Height="60" FontSize="30" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="2,0" SelectionBrush="#FFF9994F" Foreground="#FFFF7E7E" BorderBrush="{x:Null}" Background="#FF0044A6" Visibility="Collapsed" ToolTip="Pl.: 123456XX"/>
+
+                        </StackPanel>
+                        <StackPanel x:Name="tajszam_StackPanel" Height="120" Width="300" Margin="1" Background="#FF007F8B">
+                            <Label x:Name="label10" Content="Tajkártya szám:" Height="60" FontSize="32" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <Label x:Name="sajatprof_tajszam" Content="tajszam" Height="60" FontSize="28" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <TextBox x:Name="sajatprof_tajszam_tb" MaxLength="9" Height="60" FontSize="30" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="2,0" SelectionBrush="#FFF9994F" Foreground="#FFFF7E7E" BorderBrush="{x:Null}" Background="#FF0044A6" Visibility="Collapsed" ToolTip="Pl.: 123456789"/>
+
+                        </StackPanel>
+                        <StackPanel x:Name="alapber_StackPanel" Height="120" Width="300" Margin="1" Background="#FF007F8B">
+                            <Label x:Name="label11" Content="Alapbér:" Height="60" FontSize="32" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <Label x:Name="sajatprof_alapber" Content="alapber" Height="60" FontSize="28" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <TextBox x:Name="sajatprof_alapbe_tb" MaxLength="6" Height="60" FontSize="30" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="2,0" SelectionBrush="#FFF9994F" Foreground="#FFFF7E7E" BorderBrush="{x:Null}" Background="#FF0044A6" Visibility="Collapsed"/>
+
+                        </StackPanel>
+                        <StackPanel x:Name="csatlakozas_StackPanel" Height="120" Width="300" Margin="1" Background="#FF007F8B">
+                            <Label x:Name="label12" Content="Csatlakozás dátuma:" Height="60" FontSize="32" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <Label x:Name="sajatprof_csatlakozas" Content="csatlakozas" Height="60" FontSize="28" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                            <TextBox x:Name="sajatprof_csatlakozas_tb" MaxLength="10" Height="60" FontSize="30" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="2,0" SelectionBrush="#FFF9994F" Foreground="#FFFF7E7E" BorderBrush="{x:Null}" Background="#FF0044A6" Visibility="Collapsed"/>
+
+                        </StackPanel>
+                    </WrapPanel>
+                </ScrollViewer>
+                <ScrollViewer x:Name="sajatprofMenu__ScrollViewer" Margin="10,20,0,0" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Left" Width="325">
+                    <StackPanel>
+                        <Label x:Name="sajatprof_teljesnev" Content="Teljes nev" Height="85" VerticalAlignment="Top" Padding="0" FontSize="32" VerticalContentAlignment="Center" Foreground="#FFFFAE00" Width="335" Margin="0,0,0,10"/>
+                        <TextBox x:Name="sajatprof_teljesnev_tb" MaxLength="32" Height="60" FontSize="30" Padding="5,0,0,0" VerticalContentAlignment="Center" Margin="2,0,2,10" SelectionBrush="#FFF9994F" Foreground="#FFFF7E7E" BorderBrush="{x:Null}" Background="#FF0044A6" Visibility="Collapsed"/>
+                        <Button x:Name="Sajatprof_szerkesztes" Content="Szerkesztés" HorizontalContentAlignment="Center" Padding="5,0,0,0" FontSize="28" Height="70" VerticalAlignment="Top" Margin="0,0,0,20" Click="Sajatprof_szerkesztes_Click"/>
+                        <Button x:Name="Sajatprof_SzerkMentes" Content="Szerkesztés mentése" HorizontalContentAlignment="Center" Padding="5,0,0,0" FontSize="26" Height="70" VerticalAlignment="Top" Margin="0,0,0,20" Visibility="Collapsed" Click="Sajatprof_SzerkMentes_Click"/>
+                        <Button x:Name="Sajatprof_jelszoModosit" Content="Jelszó megváltoztatása" HorizontalContentAlignment="Center" Padding="5,0,0,0" FontSize="26" Height="70" VerticalAlignment="Top" Margin="0,0,0,20" Click="Sajatprof_jelszoModosit_Click"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+            <Grid x:Name="Szervizek_Grid" Visibility="Collapsed">
+                <Button x:Name="UjSzerviz_btn" Content="Új szervíz felvétele" HorizontalAlignment="Left" Height="70" Margin="25,30,0,0" VerticalAlignment="Top" Width="235" FontSize="24" Click="UjSzerviz_btn_Click"/>
+                <Button x:Name="SzervizSzerk_btn" Content="Szervíz szerkesztése" HorizontalAlignment="Left" Height="70" Margin="280,30,0,0" VerticalAlignment="Top" Width="235" FontSize="24" Click="SzervizSzerk_btn_Click"/>
+                <Button x:Name="SzervizVissza_btn" Content="Mégse" Height="70" Margin="0,30,25,0" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="160" Click="SzervizVissza_btn_Click"/>
+                <Grid x:Name="SzervizekLista_Grid" Margin="10,130,10,10">
+                    <ListView x:Name="Szervizek_lb" Margin="0" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Style="{DynamicResource ListViewStyle1}" Background="#FF005F68" Foreground="#FF171717" BorderBrush="{x:Null}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id:" DisplayMemberBinding="{Binding Szid}"/>
+                                <GridViewColumn Header="Szervíz neve:" DisplayMemberBinding="{Binding Sznev}"/>
+                                <GridViewColumn Header="Kontakt neve:" DisplayMemberBinding="{Binding Kontaktnev}"/>
+                                <GridViewColumn Header="Szervíz címe:" DisplayMemberBinding="{Binding Cim}"/>
+                                <GridViewColumn Header="Kontakt email cím:" DisplayMemberBinding="{Binding Kontaktemail}"/>
+                                <GridViewColumn Header="Kontakt telefonszáma:" DisplayMemberBinding="{Binding Kontakttelszam}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Grid x:Name="UjSzerviz_Grid" Visibility="Collapsed">
+                        <Label x:Name="UjSzervizCim" Content="Új szervíz felvétele:" HorizontalAlignment="Left" Margin="10,10,0,0" Width="320" Height="60" VerticalAlignment="Top" FontSize="32" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00E8FF00" Foreground="#FFE2A842"/>
+                        <Button x:Name="UjSzervizMentes_btn" Content="Szervíz mentése" HorizontalAlignment="Right" Height="60" Margin="0,10,25,0" VerticalAlignment="Top" Width="250" FontSize="24" Click="UjSzervizMentes_btn_Click"/>
+                        <ScrollViewer Margin="0,70,0,0">
+                            <WrapPanel>
+                                <StackPanel x:Name="KontaktNev_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label" Content="Kontakt neve:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="kontaktNev_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="32" ToolTip="Pl.: Nagy Pista"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SzervizNev_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label13" Content="Szervíz neve:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="szervizNev_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="64" ToolTip="Pl.: Royal Car Autószerviz Kft"/>
+                                </StackPanel>
+                                <StackPanel x:Name="KontaktEmail_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label14" Content="Kontakt email címe:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="KontaktEmail_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="256" ToolTip="Pl.: mydrivers@gmail.com"/>
+                                </StackPanel>
+                                <StackPanel x:Name="KontaktTelszam_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label15" Content="Kontakt telefonszáma:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="kontaktTelszam_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="11" ToolTip="Pl.: 06XX1234567"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SzervizIsz_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy" Content="Irányítószám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="szervizIszam_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="4" ToolTip="Pl.: 1136"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SzervizTelepules_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy1" Content="Település:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="szervizTelepules_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="16" ToolTip="Pl.: Budapest"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SzervizCim_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy2" Content="Cím:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="szervizCim_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="32" ToolTip="Pl.: Visegrádi utca 5"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </Grid>
+                    <Grid x:Name="SzerkSzerviz_Grid" Visibility="Collapsed">
+                        <Label x:Name="KivalasztottLabel" Content="Kiválasztott szervíz:" HorizontalAlignment="Left" Margin="10,10,0,0" Width="320" Height="60" VerticalAlignment="Top" FontSize="32" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00E8FF00" Foreground="#FFE2A842"/>
+                        <Label x:Name="KivalasztottSzerviz" Content="szervizneve" Margin="330,10,265,0" Height="60" VerticalAlignment="Top" FontSize="24" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00FFAE00" Foreground="#FF56D41B"/>
+                        <Button x:Name="SzerkSzervizMentes" Content="Szervíz mentése" HorizontalAlignment="Right" Height="60" Margin="0,10,10,0" VerticalAlignment="Top" Width="250" FontSize="24" Click="SzerkSzervizMentes_Click"/>
+                        <ScrollViewer Margin="0,70,0,0">
+                            <WrapPanel>
+                                <StackPanel x:Name="KontaktNev_Szerk_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16" Content="Kontakt neve:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="kontaktNev_Szerk" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="32" ToolTip="Pl.: Nagy Pista"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SzervizNev_Szerk_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label17" Content="Szervíz neve:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="szervizNev_Szerk" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="64" ToolTip="Pl.: Royal Car Autószerviz Kft"/>
+                                </StackPanel>
+                                <StackPanel x:Name="KontaktEmail_Szerk_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label18" Content="Kontakt email címe:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="KontaktEmail_Szerk1" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" ToolTip="Pl.: mydrivers@gmail.com" MaxLength="256"/>
+                                </StackPanel>
+                                <StackPanel x:Name="KontaktTelszam_Szerk_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label19" Content="Kontakt telefonszáma:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="kontaktTelszam_Szerk" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="11" ToolTip="Pl.: 06XX1234567"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SzervizIsz_Szerk_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy3" Content="Irányítószám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="szervizIszam_Szerk" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" ToolTip="Pl.: 1136" MaxLength="4"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SzervizTelepules_Szerk_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy4" Content="Település:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="szervizTelepules_Szerk" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="16" ToolTip="Pl.: Budapest"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SzervizCim_Szerk_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy5" Content="Cím:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="szervizCim_Szerk" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="32" ToolTip="Pl.: Visegrádi utca 5"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid x:Name="Jarmuvek_Grid" Visibility="Collapsed">
+                <Button x:Name="UjJarmu_btn" Content="Új jármű felvétele" HorizontalAlignment="Left" Height="70" Margin="25,30,0,0" VerticalAlignment="Top" Width="235" FontSize="24" Click="UjJarmu_btn_Click"/>
+                <Button x:Name="JarmuSzerk_btn" Content="Jármű szerkesztése" HorizontalAlignment="Left" Height="70" Margin="280,30,0,0" VerticalAlignment="Top" Width="235" FontSize="24" Click="JarmuSzerk_btn_Click"/>
+                <Button x:Name="JarmuVissza_btn" Content="Mégse" Height="70" Margin="0,30,25,0" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="160" Click="JarmuVissza_btn_Click" Visibility="Collapsed"/>
+                <Grid x:Name="JarmuvekLista_Grid" Margin="10,130,10,10">
+                    <ListView x:Name="Jarmuvek_lb" Margin="0" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Style="{DynamicResource ListViewStyle1}" Background="#FF005F68" Foreground="#FF171717" BorderBrush="{x:Null}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Jármű id:" DisplayMemberBinding="{Binding Jid}"/>
+                                <GridViewColumn Header="Jármű gyártó:" DisplayMemberBinding="{Binding Gyarto}"/>
+                                <GridViewColumn Header="Jármű modell:" DisplayMemberBinding="{Binding Modell}"/>
+                                <GridViewColumn Header="Jármű rendszám:" DisplayMemberBinding="{Binding Rendszam}"/>
+                                <GridViewColumn Header="Jármű évjárat:" DisplayMemberBinding="{Binding Evjarat}"/>
+                                <GridViewColumn Header="Jármű km/h:" DisplayMemberBinding="{Binding Kmora}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Grid x:Name="UjJarmu_Grid" Visibility="Collapsed">
+                        <Label x:Name="UjJarmuCim" Content="Új jármű felvétele:" HorizontalAlignment="Left" Margin="10,10,0,0" Width="320" Height="60" VerticalAlignment="Top" FontSize="32" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00E8FF00" Foreground="#FFE2A842"/>
+                        <Button x:Name="UjJarmuMentes_btn" Content="Jármű mentése" Height="60" Margin="0,10,40,0" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="250" Click="UjJarmuMentes_btn_Click"/>
+                        <ScrollViewer Margin="0,70,0,0">
+                            <WrapPanel>
+                                <StackPanel x:Name="JarmuGyarto_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label20" Content="Jármű gyártó:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="JarmuGyarto_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="16" ToolTip="Pl.: Suzuki"/>
+                                </StackPanel>
+                                <StackPanel x:Name="JarmuModell_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label21" Content="Jármű modell:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="JarmuModell_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="32" ToolTip="Pl.: Swift 1.3 GLX CD AC"/>
+                                </StackPanel>
+                                <StackPanel x:Name="JarmuRendszam_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label22" Content="Jármű rendszám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="Jarmurendszam_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="7" ToolTip="Pl.: ABC-123"/>
+                                </StackPanel>
+                                <StackPanel x:Name="JarmuEvjarat_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label23" Content="Jármű évjárat:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="JarmuEvjarat_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="9" ToolTip="Pl.: 2000-02"/>
+                                </StackPanel>
+                                <StackPanel x:Name="JarmuKmora_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy6" Content="Jármű kilóméter óra állása:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="JarmuKmora_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="6" ToolTip="Pl.: 125000"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </Grid>
+                    <Grid x:Name="SzerkJarmu_Grid" Visibility="Collapsed">
+                        <Label x:Name="KivalasztottLabel1" Content="Kiválasztott jármű:" HorizontalAlignment="Left" Margin="10,10,0,0" Width="320" Height="60" VerticalAlignment="Top" FontSize="32" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00E8FF00" Foreground="#FFE2A842"/>
+                        <Label x:Name="KivalasztottJarmuLabel" Content="jarmunev" Margin="330,10,265,0" Height="60" VerticalAlignment="Top" FontSize="28" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00FFAE00" Foreground="#FF56D41B"/>
+                        <Button x:Name="SzerkJarmuMentes_btn" Content="Jármű mentése" HorizontalAlignment="Right" Height="60" Margin="0,10,10,0" VerticalAlignment="Top" Width="250" FontSize="24" Click="SzerkJarmuMentes_btn_Click"/>
+                        <ScrollViewer Margin="0,70,0,0">
+                            <WrapPanel>
+                                <StackPanel x:Name="JarmuGyarto_Szerk_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label24" Content="Jármű gyártó:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="JarmuGyarto_Szerk_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="16" ToolTip="Pl.: Suzuki"/>
+                                </StackPanel>
+                                <StackPanel x:Name="JarmuModell_Szerk_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label25" Content="Jármű modell:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="JarmuModell_Szerk_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" ToolTip="Pl.: Swift 1.3 GLX CD AC" MaxLength="32"/>
+                                </StackPanel>
+                                <StackPanel x:Name="JarmuRendszam_Szerk_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label26" Content="Jármű rendszám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="JarmuRendszam_Szerk_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="7" ToolTip="Pl.: ABC-123"/>
+                                </StackPanel>
+                                <StackPanel x:Name="JarmuEvjarat_Szerk_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label27" Content="Jármű évjárát:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="JarmuEvjarat_Szerk_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" ToolTip="Pl.: 2000-02"/>
+                                </StackPanel>
+                                <StackPanel x:Name="JarmuKmora_Szerk_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy9" Content="Jármű kilóméter óra állása:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="JarmuKmora_Szerk_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="6" ToolTip="Pl.: 125000"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </Grid>
+                    <Grid x:Name="JarmuSzervizeles_Grid" Visibility="Collapsed">
+                        <Label x:Name="KivalasztottLabel4" Content="Kiválasztott jármű:" HorizontalAlignment="Left" Margin="10,10,0,0" Width="320" Height="60" VerticalAlignment="Top" FontSize="32" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00E8FF00" Foreground="#FFE2A842"/>
+                        <Label x:Name="KivalasztottJarmuLabel1" Content="jarmunev" HorizontalAlignment="Left" Margin="330,10,0,0" Width="365" Height="60" VerticalAlignment="Top" FontSize="28" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00FFAE00" Foreground="#FF56D41B"/>
+                        <Button x:Name="JarmuSzervizelesMentes_btn" Content="Mentés" HorizontalAlignment="Right" Height="60" Margin="0,10,10,0" VerticalAlignment="Top" Width="250" FontSize="24" Click="JarmuSzervizelesMentes_btn_Click"/>
+                        <ScrollViewer Margin="0,70,0,0">
+                            <WrapPanel>
+                                <StackPanel x:Name="JarmuSzervizeles_Szerviz_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label52" Content="Szervíz:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="JarmuSzervizeles_Szerviz_cb" Height="60" Margin="10,0" FontSize="22" VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel x:Name="JarmuSzervizeles_Mettol_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label53" Content="Mettől:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="JarmuSzervizeles_Mettol_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="10" ToolTip="Pl.: 2022-01-01"/>
+                                </StackPanel>
+                                <StackPanel x:Name="JarmuSzervizeles_Meddig_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <WrapPanel Height="65" Margin="10,0">
+                                        <Label x:Name="label76" Content="Meddig:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="0,0,0,5" Width="383.5"/>
+                                        <CheckBox x:Name="JarmuSzervizeles_Meddig_cb" Content="" Height="50" Width="45.167" Style="{DynamicResource CheckBoxStyle1}" Click="JarmuSzervizeles_Meddig_cb_Click"/>
+                                    </WrapPanel>
+                                    <TextBox x:Name="JarmuSzervizeles_Meddig_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="10" IsEnabled="False" ToolTip="Pl.: 2022-01-01"/>
+                                </StackPanel>
+                                <StackPanel x:Name="JarmuSzervizeles_Indok_sp" Background="#FF005F68" Height="275" Width="920" Margin="10,8,10,10">
+                                    <Label x:Name="label55" Content="Indok:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="JarmuSzervizeles_Indok_tb" Height="200" TextWrapping="Wrap" FontSize="22" Background="#FF008A97" Padding="5" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="512"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+                <Button x:Name="JarmuSzervizeles_btn" Content="Jármű szervízelése" Margin="0,0,80,60" FontSize="24" Height="70" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="235" Click="JarmuSzervizeles_btn_Click"/>
+            </Grid>
+            <Grid x:Name="Felhasznalok_Grid" Visibility="Collapsed">
+                <Button x:Name="UjFelhasznalo_btn" Content="Új felhasználó felvétele" HorizontalAlignment="Left" Height="70" Margin="25,30,0,0" VerticalAlignment="Top" Width="235" FontSize="22" Click="UjFelhasznalo_btn_Click"/>
+                <Button x:Name="FelhasznaloSzerk_btn" Content="Felhasználó szerkesztése" HorizontalAlignment="Left" Height="70" Margin="280,30,0,0" VerticalAlignment="Top" Width="235" FontSize="20" Click="FelhasznaloSzerk_btn_Click"/>
+                <Button x:Name="FelhasznaloVissza_btn" Content="Mégse" Height="70" Margin="0,30,25,0" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="160" Visibility="Collapsed" Click="FelhasznaloVissza_btn_Click"/>
+                <Button x:Name="FelhasznaloTorles_btn" Content="Felhasználó törlése" HorizontalAlignment="Left" Height="70" Margin="535,30,0,0" VerticalAlignment="Top" Width="235" FontSize="22" Click="FelhasznaloTorles_btn_Click"/>
+                <Grid x:Name="FelhasznalokLista_Grid" Margin="10,130,10,10">
+                    <ListView x:Name="Felhasznalok_lb" Margin="0" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Style="{DynamicResource ListViewStyle1}" Background="#FF005F68" Foreground="#FF171717" BorderBrush="{x:Null}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id:" DisplayMemberBinding="{Binding Fid}"/>
+                                <GridViewColumn Header="Munkakör:" DisplayMemberBinding="{Binding Munkakor}"/>
+                                <GridViewColumn Header="Jogosultság:" DisplayMemberBinding="{Binding Jogosultsag}"/>
+                                <GridViewColumn Header="Felhasználónév:" DisplayMemberBinding="{Binding Fnev}"/>
+                                <GridViewColumn Header="Email cím:" DisplayMemberBinding="{Binding Email}"/>
+                                <GridViewColumn Header="Születés dátuma:" DisplayMemberBinding="{Binding Szulnap}"/>
+                                <GridViewColumn Header="Kivett szabadság:" DisplayMemberBinding="{Binding Kivettszabi}"/>
+                                <GridViewColumn Header="Kivehető szabadság:" DisplayMemberBinding="{Binding Kivehetoszabi}"/>
+                                <GridViewColumn Header="Nem:" DisplayMemberBinding="{Binding Nem}"/>
+                                <GridViewColumn Header="Teljes név:" DisplayMemberBinding="{Binding Teljesnev}"/>
+                                <GridViewColumn Header="Telefonszám:" DisplayMemberBinding="{Binding Telefonszam}"/>
+                                <GridViewColumn Header="Lakcím:" DisplayMemberBinding="{Binding Lakcim}"/>
+                                <GridViewColumn Header="Adóazonosító szám:" DisplayMemberBinding="{Binding Adoazon}"/>
+                                <GridViewColumn Header="Bankszámlaszám:" DisplayMemberBinding="{Binding Bankszamla}"/>
+                                <GridViewColumn Header="Személyi száma:" DisplayMemberBinding="{Binding Szemelyi}"/>
+                                <GridViewColumn Header="Tajkártya szám:" DisplayMemberBinding="{Binding Tajszam}"/>
+                                <GridViewColumn Header="Csatlakozás dátuma:" DisplayMemberBinding="{Binding Csatl}"/>
+                                <GridViewColumn Header="Alapbér:" DisplayMemberBinding="{Binding Alapber}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Grid x:Name="UjFelhasznalo_Grid" Visibility="Collapsed">
+                        <Label x:Name="UjFelhasznaloCim" Content="Új felhasználó felvétele:" HorizontalAlignment="Left" Margin="10,10,0,0" Width="365" Height="60" VerticalAlignment="Top" FontSize="32" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00E8FF00" Foreground="#FFE2A842"/>
+                        <Button x:Name="UjFelhasznaloMentes_btn" Content="Felhasználó mentése" Height="60" Margin="0,10,40,0" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="250" Click="UjFelhasznaloMentes_btn_Click"/>
+                        <ScrollViewer Margin="0,70,0,0">
+                            <WrapPanel>
+                                <StackPanel x:Name="Fmunkakor_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label28" Content="Munkakör:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <StackPanel Height="62" Margin="10,0" Orientation="Horizontal" Background="#FF008A97">
+                                        <ComboBox x:Name="Munkakorok_cb" Margin="0,0,100,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" Width="335" SelectedIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                            <ComboBox.Background>
+                                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                    <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                    <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </ComboBox.Background>
+                                        </ComboBox>
+                                        <Button x:Name="UjMunkakor_btn" Content="+" Margin="-80,0,0,0" Width="70" FontSize="40" Padding="0" VerticalContentAlignment="Top" UseLayoutRounding="False" Click="UjMunkakor_btn_Click"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel x:Name="Fjogosultsag_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label37" Content="Jogosultság:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="Jogosultsagok_cb" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" Height="62" SelectedIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="Ffnev_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label29" Content="Felhasználónév:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="Ffnev_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="32" ToolTip="Pl.: NagyPista"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Fjelszo_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <WrapPanel Height="60" Margin="10,0,10,5">
+                                        <Label x:Name="label51" Content="Jelszó:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="0,0,0,5" Width="180"/>
+                                        <Button x:Name="Fjelszo_Gen_btn" Content="jelszó generálás" Height="50" Width="250" FontSize="24" Margin="0,5" Click="Fjelszo_Gen_btn_Click"/>
+                                    </WrapPanel>
+                                    <TextBox x:Name="Fjelszo_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="32"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Femail_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label30" Content="Email cím:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="Femail_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="256" ToolTip="Pl.: mydrivers@gmail.com"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Fteljesnev_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label31" Content="Teljes név:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="Fteljesnev_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="64" ToolTip="Pl.: Nagy Pista"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Fszulnap_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label36" Content="Születési dátum:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="Fszulnap_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="10" ToolTip="Pl.: 1999-01-01"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Ftelefonszam_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy7" Content="Telefonszám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="Ftelefonszam_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="11" ToolTip="Pl.: 06XX1234567"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Fnem_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy10" Content="Nem:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="Fnem_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="16"/>
+                                </StackPanel>
+                                <StackPanel x:Name="FkivehetoSzabi_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy11" Content="Kivehető szabadság:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FkivehetoSzabi_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="2"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Firsz_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy12" Content="Irányítószám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="Firsz_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="4" ToolTip="Pl.: 1136"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Ftelepules_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy30" Content="Település:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="Ftelepules_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="16" ToolTip="Pl.: Budapest"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Fcim_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy31" Content="Cím:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="Fcim_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="32" ToolTip="Pl.: Visegrádi utca 5"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Fadoazon_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy13" Content="Adóazonosító jel:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="Fadoazon_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="10" ToolTip="Pl.: 0123456789"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Fbankszamla_sp" Background="#FF005F68" Height="145" Width="575" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy14" Content="Bankszámlaszám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <WrapPanel Height="60" Margin="10,0">
+                                        <TextBox x:Name="Fbankszamla_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="0,0,0,5" SpellCheck.IsEnabled="True" MaxLength="26" TextChanged="Fbankszamla_tb_TextChanged" Width="470" ToolTip="Pl.: 12345678-12345678-12345678"/>
+                                        <Label x:Name="FbankszamlaSzamlalo" Content="0/24" Height="50" VerticalContentAlignment="Center" FontSize="28" Margin="2,0,0,5" Width="80" Padding="5,0,0,0" BorderBrush="#FF014A51" BorderThickness="1" Foreground="#FFB33838"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                                <StackPanel x:Name="Fszemelyi_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy15" Content="Személyigazolvány szám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="Fszemelyi_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="8" ToolTip="Pl.: 123456XX"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Ftajszam_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy16" Content="Tajkártya szám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="Ftajszam_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="9" ToolTip="Pl.: 123456789"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Falapber_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy18" Content="Alap bér:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="Falapber_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="8" ToolTip="Pl.: 250000"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </Grid>
+                    <Grid x:Name="SzerkFelhasznalo_Grid" Visibility="Collapsed">
+                        <Label x:Name="KivalasztottLabel2" Content="Kiválasztott felhasználó:" HorizontalAlignment="Left" Margin="10,10,0,0" Width="335" Height="60" VerticalAlignment="Top" FontSize="28" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00E8FF00" Foreground="#FFE2A842"/>
+                        <Label x:Name="KivalasztottFh_Label" Content="jarmunev" HorizontalAlignment="Left" Margin="350,10,0,0" Width="345" Height="60" VerticalAlignment="Top" FontSize="28" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00FFAE00" Foreground="#FF56D41B"/>
+                        <Button x:Name="SzerkFhMentes_btn" Content="Felhasználó mentése" HorizontalAlignment="Right" Height="60" Margin="0,10,10,0" VerticalAlignment="Top" Width="250" FontSize="24" Click="SzerkFhMentes_btn_Click"/>
+                        <ScrollViewer Margin="0,70,0,0">
+                            <WrapPanel>
+                                <StackPanel x:Name="F_Szerkmunkakor_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label32" Content="Munkakör:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <StackPanel Height="62" Margin="10,0" Orientation="Horizontal" Background="#FF008A97">
+                                        <ComboBox x:Name="F_SzerkMunkakorok_cb" Margin="0,0,100,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" Width="430" SelectedIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                            <ComboBox.Background>
+                                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                    <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                    <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </ComboBox.Background>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerkjogosultsag_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label33" Content="Jogosultság:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="F_SzerkJogosultsagok_cb1" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" Height="62" SelectedIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerkfnev_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label34" Content="Felhasználónév:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FSzerkfnev_tb1" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="32" ToolTip="Pl.: NagyPista"/>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerkemail_sp1" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label35" Content="Email cím:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FSzerkemail_tb1" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="256" ToolTip="Pl.: mydrivers@gmail.com"/>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerkteljesnev_sp1" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label38" Content="Teljes név:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FSzerkteljesnev_tb1" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="64" ToolTip="Pl.: Nagy Pista"/>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerkszulnap_sp1" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label39" Content="Születési dátum:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FSzerkszulnap_tb1" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="10" ToolTip="Pl.: 1999-01-01"/>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerktelefonszam_sp1" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy8" Content="Telefonszám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FSzerktelefonszam_tb1" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="11" ToolTip="Pl.: 06XX1234567"/>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerknem_sp1" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy17" Content="Nem:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FSzerknem_tb1" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="16"/>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerkkivehetoSzabi_sp1" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy19" Content="Kivehető szabadság:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FSzerkkivehetoSzabi_tb1" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="2"/>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerkirsz_sp1" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy20" Content="Irányítószám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FSzerkirsz_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="4" ToolTip="Pl.: 1136"/>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerktelepules_sp1" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy32" Content="Település:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FSzerktelepules_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="16" ToolTip="Pl.: Budapest"/>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerkcim_sp1" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy33" Content="Cím:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FSzerkcim_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="32" ToolTip="Pl.: Visegrádi utca 5"/>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerkadoazon_sp1" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy21" Content="Adóazonosító szám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FSzerkadoazon_tb1" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="10" ToolTip="Pl.: 0123456789"/>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerkbankszamla_sp1" Background="#FF005F68" Height="145" Margin="0,8,0,10" Width="550">
+                                    <Label x:Name="label16_Copy29" Content="Bankszámlaszám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <WrapPanel Height="60" Margin="10,0">
+                                        <TextBox x:Name="FSzerkbankszamla_tb1" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="0,0,0,5" SpellCheck.IsEnabled="True" MaxLength="26" TextChanged="FSzerkbankszamla_tb1_TextChanged" Width="435" ToolTip="Pl.: 12345678-12345678-12345678"/>
+                                        <Label x:Name="FSzerkBszSzamlalo" Content="0/24" Height="50" VerticalContentAlignment="Center" FontSize="28" Margin="2,0,0,5" Width="80" Padding="5,0,0,0" BorderBrush="#FF014A51" BorderThickness="1" Foreground="#FFB33838"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerkszemelyi_sp1" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy23" Content="Személyigazolvány szám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FSzerkszemelyi_tb1" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="11" ToolTip="Pl.: 123456XX"/>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerktajszam_sp1" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy24" Content="Tajkártya szám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FSzerktajszam_tb1" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="9" ToolTip="Pl.: 123456789"/>
+                                </StackPanel>
+                                <StackPanel x:Name="FSzerkalapber_sp1" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy25" Content="Alap bér:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="FSzerkalapber_tb1" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="8" ToolTip="Pl.: 250000"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+                <Button x:Name="FelhasznaloSzabiraKuld_btn" Content="Szabadságra küldés" Margin="0,0,70,60" FontSize="22" Height="70" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="235" Click="FelhasznaloSzabiraKuld_btn_Click"/>
+                <Button x:Name="FelhasznaloJelszoModosit_btn" Content="Jelszó módosítása" Margin="0,0,330,59.6" FontSize="22" Click="FelhasznaloJelszoModosit_btn_Click_1" Height="70" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="235" Visibility="Collapsed"/>
+            </Grid>
+            <Grid x:Name="Fuvarok_Grid" Visibility="Collapsed">
+                <Button x:Name="UjFuvar_btn" Content="Új fuvar felvétele" HorizontalAlignment="Left" Height="70" Margin="25,30,0,0" VerticalAlignment="Top" Width="235" FontSize="22" Click="UjFuvar_btn_Click"/>
+                <Button x:Name="FuvarSzerk_btn" Content="Fuvar szerkesztése" HorizontalAlignment="Left" Height="70" Margin="280,30,0,0" VerticalAlignment="Top" Width="235" FontSize="20" Click="FuvarSzerk_btn_Click"/>
+                <Button x:Name="FuvarVissza_btn" Content="Mégse" Height="70" Margin="0,30,25,0" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="160" Visibility="Collapsed" Click="FuvarVissza_btn_Click"/>
+                <Grid x:Name="FuvarLista_Grid" Margin="10,170,10,10">
+                    <ListView x:Name="Fuvar_lb" Margin="0" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Style="{DynamicResource ListViewStyle1}" Background="#FF005F68" Foreground="#FF171717" BorderBrush="{x:Null}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id:" DisplayMemberBinding="{Binding Fuvar_id}"/>
+                                <GridViewColumn Header="Felhasználó:" DisplayMemberBinding="{Binding Fnev}"/>
+                                <GridViewColumn Header="Jármű:" DisplayMemberBinding="{Binding Jnev}"/>
+                                <GridViewColumn Header="Kerület:" DisplayMemberBinding="{Binding Kerulet}"/>
+                                <GridViewColumn Header="Dátum:" DisplayMemberBinding="{Binding Fdatum}"/>
+                                <GridViewColumn Header="Kezdés:" DisplayMemberBinding="{Binding Kezdes}"/>
+                                <GridViewColumn Header="Befejezés:" DisplayMemberBinding="{Binding Befejezes}"/>
+                                <GridViewColumn Header="Felvett csomag:" DisplayMemberBinding="{Binding Felvett_csom}"/>
+                                <GridViewColumn Header="Sikeres csomag:" DisplayMemberBinding="{Binding Sikeres}"/>
+                                <GridViewColumn Header="Sikertelen csomag:" DisplayMemberBinding="{Binding Sikertelen}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Grid x:Name="UjFuvar_Grid" Visibility="Collapsed">
+                        <Label x:Name="UjFuvarCim" Content="Új fuvar felvétele:" HorizontalAlignment="Left" Margin="10,10,0,0" Width="365" Height="60" VerticalAlignment="Top" FontSize="32" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00E8FF00" Foreground="#FFE2A842"/>
+                        <Button x:Name="UjFuvarMentes_btn" Content="Fuvar mentése" Height="60" Margin="0,10,40,0" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="250" Click="UjFuvarMentes_btn_Click"/>
+                        <ScrollViewer Margin="0,70,0,0">
+                            <WrapPanel>
+                                <StackPanel x:Name="UjFuvarFh_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label40" Content="Felhasználó:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="UjFuvarFelhasznalo_cb" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" SelectedIndex="0" VerticalContentAlignment="Center" Height="62">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="UjFuvarJarmu_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label41" Content="Jármű:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="UjFuvarJarmuvek_cb" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" Height="62" SelectedIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="UjFuvarDatum_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label42" Content="Dátum:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="UjFuvarDatum_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="10" ToolTip="Pl.: 2022-01-01"/>
+                                </StackPanel>
+                                <StackPanel x:Name="UjFuvarKezdes_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label43" Content="Kezdés:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="UjFuvarKezdes_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="5" ToolTip="Pl.: 10:00"/>
+                                </StackPanel>
+                                <StackPanel x:Name="UjFuvarBefejezes_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <WrapPanel Height="65" Margin="10,0">
+                                        <Label x:Name="label61" Content="Befejezés:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="0,0,0,5" Width="383.5"/>
+                                        <CheckBox x:Name="UjFuvarBefejezes_cb" Content="" Height="50" Width="45.167" Style="{DynamicResource CheckBoxStyle1}" Click="UjFuvarBefejezes_cb_Click"/>
+                                    </WrapPanel>
+                                    <TextBox x:Name="UjFuvarBefejezes_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="5" IsEnabled="False" ToolTip="Pl.: 12:00"/>
+                                </StackPanel>
+                                <StackPanel x:Name="UjFuvarKerulet_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label45" Content="Kerület:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="UjFuvarKeruletek_cb" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" Height="62" SelectedIndex="0" VerticalContentAlignment="Center">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="UjFuvarFelvettCsomi_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy26" Content="Felvett csomagok:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="UjFuvarFelvettCsomi_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="4"/>
+                                </StackPanel>
+                                <StackPanel x:Name="UjFuvarSikeresCsomi_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <WrapPanel Height="65" Margin="10,0">
+                                        <Label x:Name="label57" Content="Sikeres csomagok:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="0,0,0,5" Width="383.5"/>
+                                        <CheckBox x:Name="UjFuvarSikeresCsomi_cb" Content="" Height="50" Width="45.167" Style="{DynamicResource CheckBoxStyle1}" Click="UjFuvarSikeresCsomi_cb_Click"/>
+                                    </WrapPanel>
+                                    <TextBox x:Name="UjFuvarSikeresCsomi_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="4" IsEnabled="False"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </Grid>
+                    <Grid x:Name="SzerkFuvar_Grid" Visibility="Collapsed">
+                        <Label x:Name="KivalasztottLabel3" Content="Kiválasztott fuvar:" HorizontalAlignment="Left" Margin="10,10,0,0" Width="335" Height="60" VerticalAlignment="Top" FontSize="28" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00E8FF00" Foreground="#FFE2A842"/>
+                        <Label x:Name="KivalasztottFuvar_Label" Content="fuvarnev" Margin="350,10,265,0" Height="60" VerticalAlignment="Top" FontSize="28" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00FFAE00" Foreground="#FF56D41B"/>
+                        <Button x:Name="SzerkFuvarMentes_btn" Content="Mentés" HorizontalAlignment="Right" Height="60" Margin="0,10,10,0" VerticalAlignment="Top" Width="250" FontSize="24" Click="SzerkFuvarMentes_btn_Click"/>
+                        <ScrollViewer Margin="0,70,0,0">
+                            <WrapPanel>
+                                <StackPanel x:Name="SzerkFuvarFh_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label44" Content="Felhasználó:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="SzerkFuvarFelhasznalo_cb" Margin="8,0,10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" SelectedIndex="0" VerticalContentAlignment="Center" Height="62">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="SzerkFuvarJarmu_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label46" Content="Jármű:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="SzerkFuvarJarmuvek_cb" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" Height="62" SelectedIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="SzerkFuvarDatum_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label47" Content="Dátum:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="SzerkFuvarDatum_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="10" ToolTip="Pl.: 2022-01-01"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SzerkFuvarKezdes_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label48" Content="Kezdés:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="SzerkFuvarKezdes_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="5" ToolTip="Pl.: 10:00"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SzerkFuvarBefejezes_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <WrapPanel Height="65" Margin="10,0">
+                                        <Label x:Name="label50" Content="Befejezés:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="0,0,0,5" Width="383.5"/>
+                                        <CheckBox x:Name="SzerkFuvarBefejezes_cb" Content="" Height="50" Width="45.167" Style="{DynamicResource CheckBoxStyle1}" Click="SzerkFuvarBefejezes_cb_Click"/>
+                                    </WrapPanel>
+                                    <TextBox x:Name="SzerkFuvarBefejezes_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="5" ToolTip="Pl.: 12:00" IsEnabled="False"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SzerkFuvarKerulet_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label49" Content="Kerület:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="SzerkFuvarKeruletek_cb" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" Height="62" SelectedIndex="0" VerticalContentAlignment="Center">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="SzerkFuvarFelvettCsomi_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label16_Copy27" Content="Felvett csomagok:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="SzerkFuvarFelvettCsomi_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="4"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SzerkFuvarSikeresCsomi_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <WrapPanel Height="65" Margin="10,0">
+                                        <Label x:Name="label56" Content="Sikeres csomagok:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="0,0,0,5" Width="383.5"/>
+                                        <CheckBox x:Name="SzerkFuvarSikeresCsomi_cb" Content="" Height="50" Width="45.167" Style="{DynamicResource CheckBoxStyle1}" Click="SzerkFuvarSikeresCsomi_cb_Click"/>
+                                    </WrapPanel>
+                                    <TextBox x:Name="SzerkFuvarSikeresCsomi_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="4" IsEnabled="False"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+                <Label x:Name="FuvarCsakAktivakLabel" Content="Csak aktívak:" HorizontalAlignment="Left" Height="45" Margin="25,120,0,0" VerticalAlignment="Top" Width="195" VerticalContentAlignment="Center" FontSize="24"/>
+                <CheckBox x:Name="FuvarokCsakAktivak_chb" Content="" HorizontalAlignment="Left" Height="35" Margin="225,125,0,0" VerticalAlignment="Top" Width="35" Click="FuvarokCsakAktivak_chb_Click" Style="{DynamicResource CheckBoxStyle1}"/>
+            </Grid>
+            <Grid x:Name="Szervizeles_Grid" Visibility="Collapsed">
+                <Button x:Name="SzervizelesSzerk_btn" Content="Szervízelés szerkesztése" HorizontalAlignment="Left" Height="70" Margin="10,30,0,0" VerticalAlignment="Top" Width="235" FontSize="20" Click="SzervizelesSzerk_btn_Click"/>
+                <Button x:Name="SzervizelesVissza_btn" Content="Mégse" Height="70" Margin="0,30,25,0" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="160" Visibility="Collapsed" Click="SzervizelesVissza_btn_Click"/>
+                <Grid x:Name="SzervizelesLista_Grid" Margin="10,170,10,10">
+                    <ListView x:Name="Szervizeles_lb" Margin="0" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Style="{DynamicResource ListViewStyle1}" Background="#FF005F68" Foreground="#FF171717" BorderBrush="{x:Null}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id:" DisplayMemberBinding="{Binding Szerid}"/>
+                                <GridViewColumn Header="Szervíz:" DisplayMemberBinding="{Binding Sznev}"/>
+                                <GridViewColumn Header="Jármű:" DisplayMemberBinding="{Binding Jnev}"/>
+                                <GridViewColumn Header="Mettől:" DisplayMemberBinding="{Binding Szmettol}"/>
+                                <GridViewColumn Header="Meddig:" DisplayMemberBinding="{Binding Szmeddig}"/>
+                                <GridViewColumn Header="Indok:" DisplayMemberBinding="{Binding Indok}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Grid x:Name="SzerkSzervizeles_Grid" Visibility="Collapsed">
+                        <Label x:Name="KivalasztottSzervizelesLabel" Content="Kiválasztott szervízelés:" HorizontalAlignment="Left" Margin="10,10,0,0" Width="335" Height="60" VerticalAlignment="Top" FontSize="28" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00E8FF00" Foreground="#FFE2A842"/>
+                        <Label x:Name="KivalasztottSzervizeles_Label" Content="szervizelesnev" Margin="350,10,265,0" Height="60" VerticalAlignment="Top" FontSize="22" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00FFAE00" Foreground="#FF56D41B"/>
+                        <Button x:Name="SzerkSzervizelesMentes_btn" Content="Mentés" HorizontalAlignment="Right" Height="60" Margin="0,10,10,0" VerticalAlignment="Top" Width="250" FontSize="24" Click="SzerkSzervizelesMentes_btn_Click"/>
+                        <ScrollViewer Margin="0,70,0,0">
+                            <WrapPanel>
+                                <StackPanel x:Name="Mettol_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label58" Content="Mettől:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="SzerkSzervizelesMettol_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,-10,5" MaxLength="10" ToolTip="Pl.: 2022-01-01"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Meddig_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <WrapPanel Height="65" Margin="10,0">
+                                        <Label x:Name="label54" Content="Meddig:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="0,0,0,5" Width="383.5"/>
+                                        <CheckBox x:Name="SzerkSzervizelesMeddig_cb" Content="" Height="50" Width="45.167" Style="{DynamicResource CheckBoxStyle1}" Click="SzerkSzervizelesMeddig_cb_Click"/>
+                                    </WrapPanel>
+                                    <TextBox x:Name="SzerkSzervizelesMeddig_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="10" IsEnabled="False" ToolTip="Pl.: 2022-01-01"/>
+                                </StackPanel>
+                                <StackPanel x:Name="Indok_sp" Background="#FF005F68" Height="275" Width="920" Margin="10,8,10,10">
+                                    <Label x:Name="label60" Content="Indok:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="SzerkSzervizelesIndok_tb" Height="200" TextWrapping="Wrap" FontSize="22" Background="#FF008A97" Padding="5" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" MaxLength="512"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+                <Label x:Name="SzervizelesCsakAktivakLabel" Content="Csak aktívak:" HorizontalAlignment="Left" Height="45" Margin="25,120,0,0" VerticalAlignment="Top" Width="195" VerticalContentAlignment="Center" FontSize="24"/>
+                <CheckBox x:Name="SzervizelesCsakAktivak_chb" Content="" HorizontalAlignment="Left" Height="35" Margin="225,125,0,0" VerticalAlignment="Top" Width="35" Click="SzervizelesCsakAktivak_chb_Click" Style="{DynamicResource CheckBoxStyle1}"/>
+            </Grid>
+            <Grid x:Name="Beosztas_Grid" Visibility="Collapsed">
+                <Label x:Name="BeosztasDatumHet_label" Content="2022-03-21 &lt;---&gt; 2022-03-27" Height="69.175" Margin="245,10,245,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="36"/>
+                <Button x:Name="BeosztasHetHatra_btn" Content="Hátra" HorizontalAlignment="Left" Height="70" Margin="90,9.175,0,0" VerticalAlignment="Top" Width="130" FontSize="28" Click="BeosztasHetHatra_btn_Click"/>
+                <Button x:Name="BeosztasHetElore_btn" Content="Előre" Height="70" Margin="0,10,90,0" VerticalAlignment="Top" FontSize="28" HorizontalAlignment="Right" Width="135" Click="BeosztasHetElore_btn_Click"/>
+                <Button x:Name="UjBeosztas_btn" Content="Új beosztás" HorizontalAlignment="Left" Height="50" Margin="10,105,0,0" VerticalAlignment="Top" Width="215" FontSize="20" Click="UjBeosztas_btn_Click"/>
+                <Button x:Name="SzerkBeosztas_btn" Content="Beosztás szerkesztése" HorizontalAlignment="Left" Height="50" Margin="250,105,0,0" VerticalAlignment="Top" Width="215" FontSize="20" Click="SzerkBeosztas_btn_Click"/>
+                <Grid x:Name="BeosztasLista_Grid" Margin="10,170,10,10">
+                    <ListView x:Name="Beosztasok_lb" Margin="0" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Style="{DynamicResource ListViewStyle1}" Background="#FF005F68" Foreground="#FF171717" BorderBrush="Transparent">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id:" DisplayMemberBinding="{Binding Bid}"/>
+                                <GridViewColumn Header="Felhasználó:" DisplayMemberBinding="{Binding Fnev}"/>
+                                <GridViewColumn Header="Jármű:" DisplayMemberBinding="{Binding Jnev}"/>
+                                <GridViewColumn Header="Dátum:" DisplayMemberBinding="{Binding Bdatum}"/>
+                                <GridViewColumn Header="Műszak:" DisplayMemberBinding="{Binding Bmuszak}"/>
+                                <GridViewColumn Header="Óra:" DisplayMemberBinding="{Binding Ora}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Grid x:Name="UjBeosztas_Grid" Visibility="Collapsed">
+                        <Label x:Name="UjBeosztasCim" Content="Új beosztás felvétele:" HorizontalAlignment="Left" Margin="10,10,0,0" Width="365" Height="60" VerticalAlignment="Top" FontSize="32" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00E8FF00" Foreground="#FFE2A842"/>
+                        <Button x:Name="UjBeosztasMentes_btn" Content="Beosztás mentése" Height="60" Margin="0,10,40,0" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="250" Click="UjBeosztasMentes_btn_Click"/>
+                        <ScrollViewer Margin="0,70,0,0">
+                            <WrapPanel>
+                                <StackPanel x:Name="UjBeosztasFh_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label62" Content="Felhasználó:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="UjBeosztasFh_cb" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" SelectedIndex="0" VerticalContentAlignment="Center" Height="62">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="UjBeosztasJarmu_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label63" Content="Jármű:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="UjBeosztasJarmuvek_cb1" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" Height="62" SelectedIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="UjBeosztasDatum_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label64" Content="Dátum:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="UjBeosztasDatum_cb" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" Height="62" SelectedIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="UjBeosztasMuszak_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label65" Content="Műszak:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="UjBeosztasMuszak_cb" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" Height="62" SelectedIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                        <ComboBoxItem Content="Délelőtt"/>
+                                        <ComboBoxItem Content="Délután"/>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="UjBeosztasOra_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label66" Content="Óra szám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="UjBeosztasOra_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="2" ToolTip="Pl.: 8"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </Grid>
+                    <Grid x:Name="SzerkBeosztas_Grid" Visibility="Collapsed">
+                        <Label x:Name="SzerkBeosztasCim" Content="Kiválasztott beosztás:" HorizontalAlignment="Left" Margin="10,10,0,0" Width="340" Height="60" VerticalAlignment="Top" FontSize="32" VerticalContentAlignment="Center" Padding="5,0,0,0" FontWeight="Bold" Background="#00E8FF00" Foreground="#FFE2A842"/>
+                        <Label x:Name="KivalasztottBeosztas_label" Content="beosztas" Margin="350,10,295,0" Height="60" VerticalAlignment="Top" FontSize="22" VerticalContentAlignment="Center" Padding="5,0,0,0" Background="#00E8FF00" Foreground="#FF131313"/>
+                        <Button x:Name="SzerkBeosztasMentes_btn" Content="Beosztás mentése" Height="60" Margin="0,10,40,0" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Right" Width="250" Click="SzerkBeosztasMentes_btn_Click"/>
+                        <ScrollViewer Margin="0,70,0,0">
+                            <WrapPanel>
+                                <StackPanel x:Name="SzerkBeosztasFh_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label59" Content="Felhasználó:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="SzerkBeosztasFh_cb" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" SelectedIndex="0" VerticalContentAlignment="Center" Height="62">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="SzerkBeosztasJarmu_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label67" Content="Jármű:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="SzerkBeosztasJarmuvek_cb" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" Height="62" SelectedIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="SzerkBeosztasDatum_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label68" Content="Dátum:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="SzerkBeosztasDatum_cb" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" Height="62" SelectedIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Visibility="Collapsed">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                    </ComboBox>
+                                    <TextBox x:Name="SzerkBeosztasDatum_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="10" ToolTip="Pl.: 2022-01-01"/>
+                                </StackPanel>
+                                <StackPanel x:Name="SzerkBeosztasMuszak_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label77" Content="Műszak:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <ComboBox x:Name="SzerkBeosztasMuszak_cb" Margin="10,0" BorderBrush="#FF3C3C3C" Foreground="#FF033034" FontSize="32" Height="62" SelectedIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                        <ComboBox.Background>
+                                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                                <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                                <GradientStop Color="#00E5E5E5" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </ComboBox.Background>
+                                        <ComboBoxItem Content="Délelőtt"/>
+                                        <ComboBoxItem Content="Délután"/>
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel x:Name="SzerkBeosztasOra_sp" Background="#FF005F68" Height="145" Width="450" Margin="10,8,10,10">
+                                    <Label x:Name="label78" Content="Óra szám:" Height="60" VerticalContentAlignment="Center" FontSize="28" Margin="10,0,10,5"/>
+                                    <TextBox x:Name="SzerkBeosztasOra_tb" Height="60" TextWrapping="Wrap" FontSize="26" Background="#FF008A97" VerticalContentAlignment="Center" Padding="5,0,0,0" SelectionBrush="#FFB29F7F" BorderBrush="#FF004349" Margin="10,0,10,5" SpellCheck.IsEnabled="True" MaxLength="2" ToolTip="Pl.: 8"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+                <Button x:Name="BeosztasVissza_btn" Content="Vissza" Height="50" Margin="0,105,50,0" VerticalAlignment="Top" FontSize="26" HorizontalAlignment="Right" Width="150" Visibility="Collapsed" Click="BeosztasVissza_btn_Click"/>
+            </Grid>
+        </Grid>
+        <Grid x:Name="FelugroAblak" Height="295" Width="445" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
+            <Rectangle x:Name="FelugroAblakHatter" Fill="#FF212121"/>
+            <TextBlock x:Name="Felugro_Label" Text="Biztosan kijelentkezel?" Margin="10,10,10,180" Background="Transparent" Foreground="#FFFF5454" FontSize="28" Padding="0" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button x:Name="FelugroIgen_btn" Content="Igen" Height="60" Margin="130,120,130,0" VerticalAlignment="Top" FontSize="30" Padding="0" Click="FelugroIgen_btn_Click"/>
+            <Button x:Name="FelugroNem_btn" Content="Mégse" Height="60" Margin="130,200,130,0" VerticalAlignment="Top" Padding="0" FontSize="30" Click="FelugroMegse_btn_Click"/>
+        </Grid>
+        <Grid x:Name="Fejlec" Height="30" VerticalAlignment="Top">
+            <Image x:Name="Max_min_gomb" HorizontalAlignment="Right" Height="25" Margin="0,5,35,0" VerticalAlignment="Top" Width="25" Source="minimize.png" MouseLeftButtonDown="Max_min_gomb_MouseLeftButtonDown"/>
+            <Image x:Name="Bezar_gomb" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right" Width="25" Source="icons8-close-550.png" MouseLeftButtonDown="Bezar_gomb_MouseLeftButtonDown" Stretch="Fill" Margin="0,5,5,0"/>
+            <Label x:Name="VerzioLabel" Content="MyDrivers" Padding="10,0,0,0" VerticalContentAlignment="Center" FontSize="18" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300" Foreground="#FF97FF00"/>
+        </Grid>
+    </Grid>
+</Window>

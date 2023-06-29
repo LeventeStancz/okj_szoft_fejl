@@ -1,0 +1,17 @@
+﻿<Window x:Class="MyDrivers.UjMunkakorAblak"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyDrivers"
+        mc:Ignorable="d"
+        Title="UjMunkakorAblak" Height="290" Width="480" FontSize="18" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="#FF033034" Foreground="#FF177780">
+    <Grid>
+        <Label Content="Új munkakör felvétele:" Margin="10,10,10,225" Foreground="#FF30C3D1" FontSize="34" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold"/>
+        <Button x:Name="UjMkVissza_btn" Content="Vissza" HorizontalAlignment="Left" Margin="195,237,0,0" VerticalAlignment="Top" Width="100" Height="38" Click="UjMkVissza_btn_Click"/>
+        <Button x:Name="UjMkMentes_btn" Content="Mentés" HorizontalAlignment="Left" Margin="185,185,0,0" VerticalAlignment="Top" Width="120" Height="40" Click="UjMkMentes_btn_Click"/>
+        <Label Content="Munkakör neve:" HorizontalAlignment="Left" Margin="45,65,0,0" VerticalAlignment="Top" Width="395" Height="50" Foreground="#FF1E9EAA" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24"/>
+        <TextBox x:Name="UjMk_tb" HorizontalAlignment="Left" Height="55" Margin="105,120,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280" SelectionBrush="#FF27C4D3" Foreground="White" BorderBrush="#FFABADB3" Background="#FF054247" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20"/>
+
+    </Grid>
+</Window>

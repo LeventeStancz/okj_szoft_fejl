@@ -1,0 +1,19 @@
+﻿<Window x:Class="MyDrivers.FelhasznaloSzabiraKuld"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyDrivers"
+        mc:Ignorable="d"
+        Title="FelhasznaloSzabiraKuld" Height="415" Width="400" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="#FF2C2C2C" Loaded="Window_Loaded">
+    <Grid>
+        <Label Content="Felhasználó szabadságra küldése:" Margin="10,30,10,0" Height="60" VerticalAlignment="Top" FontSize="24" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="WhiteSmoke"/>
+        <Label Content="Kiválasztott felhasználó:" Margin="10,95,10,0" Height="60" VerticalAlignment="Top" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="WhiteSmoke"/>
+        <Label x:Name="KivalasztottFelhasznalo" Content="" Margin="10,160,10,0" Height="60" VerticalAlignment="Top" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FFFFB636"/>
+        <TextBox x:Name="MegadottSzabi_tb" Margin="120,290,120,80" TextWrapping="Wrap" Background="#FF686868" Foreground="#FFFDFDFD" BorderBrush="#FF8C8C8C" FontSize="24" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MaxLength="2"/>
+        <Label x:Name="MaxSzabi_Label" Content="/20" Margin="10,225,10,0" Height="60" VerticalAlignment="Top" FontSize="24" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FFEEEEEE"/>
+        <Button Content="Mentés" Margin="140,365,140,10" FontSize="20" Background="#FFCDCDCD" Click="Button_Click"/>
+        <Image Height="33" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" Source="icons8-close-550.png" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
+
+    </Grid>
+</Window>
