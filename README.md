@@ -1,4 +1,4 @@
-# Szoftverfejlesztő OKJ vizsga program. (2021.09 - 2022.05)
+# Szoftverfejlesztő OKJ vizsga program - MyDrivers - C# - (2021.09 - 2022.05)
 A program dokumentációja megtalálható a fájlok között.
 
 Rövid leírás:
